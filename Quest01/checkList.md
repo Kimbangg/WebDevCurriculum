@@ -84,3 +84,17 @@
 - HTML 이후
   - 태그만을 봤을 때, 어떤 목표를 위해 쓰여진지 알기위해서 등장한 것들이 시맨틱 태그다
   - 종류로는 header, nav, aside, section, article, footer 등이 있다.
+
+### 3-1 블록 레벨 엘리먼트와 인라인 엘리먼트는 어떤 차이가 있을까요?
+
+- 블록 레벨(Block)
+
+  - 모든 인라인 요소를 포함할 수 있고, 다른 블록 요소도 일부 포함할 수 있습니다.
+  - 기본적으로 가로 폭 전체의 넓이를 가지는 직사각형 형태가 되며, 형태를 변형하여 레이아웃을 수정할 수 있습니다.
+  - 예씨: article, div, form, header, section, p, ul
+
+- 인라인 레벨(inline)
+  - 인라인 요소는 항상 블록 요소안에 포함이 되어있습니다.
+  - 컨텐츠가 끝나는 지점까지를 넓이르 가지게 되고, 임의올 width, height로 변형을 줄 수 없습니다.
+  - line-height로 높낮이를 조절할 수있고, text-align으로 폰트의 위치를 정렬할 수 있습니다.
+  - 예시 : a, button, i, img, input, label, select, span, textarea
