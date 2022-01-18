@@ -1,32 +1,81 @@
 # Quest 12. 보안의 기초
 
 ## Introduction
-* 이번 퀘스트에서는 가장 기초적인 웹 서비스 보안에 대해 알아보겠습니다.
+
+- 이번 퀘스트에서는 가장 기초적인 웹 서비스 보안에 대해 알아보겠습니다.
 
 ## Topics
-* XSS, CSRF, SQL Injection
-* HTTPS, TLS
+
+- XSS, CSRF, SQL Injection
+- HTTPS, TLS
 
 ## Resources
-* [The Basics of Web Application Security](https://martinfowler.com/articles/web-security-basics.html)
-* [Website Security 101](https://spyrestudios.com/web-security-101/)
-* [Web Security Fundamentals](https://www.shopify.com.ng/partners/blog/web-security-2018)
-* [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
-* [Wikipedia - TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+
+- [The Basics of Web Application Security](https://martinfowler.com/articles/web-security-basics.html)
+- [Website Security 101](https://spyrestudios.com/web-security-101/)
+- [Web Security Fundamentals](https://www.shopify.com.ng/partners/blog/web-security-2018)
+- [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+- [Wikipedia - TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)
 
 ## Checklist
-* 입력 데이터의 Validation을 웹 프론트엔드에서 했더라도 서버에서 또 해야 할까요? 그 이유는 무엇일까요?
+
+- 입력 데이터의 Validation을 웹 프론트엔드에서 했더라도 서버에서 또 해야 할까요? 그 이유는 무엇일까요?
+
+  - 프론트엔드의 검증은 개발자 도구를 통해서 손쉽게 위/변조가 가능하기에 이를 방지하기 위해서 필요하다.
+  - 그렇다면, 프론트엔드에서 검증 작업을 없앴을 때 효율성을 높일 수 있지 않을까? 라는 생각이 들 수 있는데, 위/변조가 없다고 가정 했을 때
+  - 프론트에서의 검증은 서버의 리소스 낭비를 최소화할 수 있도록 돕기 때문에 [프론트 ,백엔드] 모두 검증을 해야한다.
+
   * 서버로부터 받은 HTML 내용을 그대로 검증 없이 프론트엔드에 innerHTML 등을 통해 적용하면 어떤 문제점이 있을까요?
+
+        - innerHTML을 사용하게 될 경우, 누군가 악의적으로 스크립트를 삽입을 통해 유저의 정보를 손쉽게 탈취 가능해진다.
+        - 이에 따라, `"<" , ",", ">"` 등과 같은 태그 및 문자를 `$lt, $gt`와 같이 필터링 해주는 방법으로 방어가 가능하다.
+          - Lucy-xss-filter와 같은 라이브러리 사용도 좋다.
+
+    <br><br>
+
   * XSS(Cross-site scripting)이란 어떤 공격기법일까요?
-  * CSRF(Cross-site request forgery)이란 어떤 공격기법일까요?
-  * SQL Injection이란 어떤 공격기법일까요?
-* 대부분의 최신 브라우저에서는 HTTP 대신 HTTPS가 권장됩니다. 이유가 무엇일까요?
-  * HTTPS와 TLS는 어떤 식으로 동작하나요? HTTPS는 어떤 역사를 가지고 있나요?
-  * HTTPS의 서비스 과정에서 인증서는 어떤 역할을 할까요? 인증서는 어떤 체계로 되어 있을까요?
+    - 웹 페이지에 관리자가 아닌 이가 악성 스크립트를 삽입하는 해킹 기법을 의미합니다.
+    - 스크립트에 따라서 쿠키나 세션, 토큰 등의 탈취가 가능해서 이를 이용하여 특정 사이트에 침입하거나 특정 페이지로 이동시킨다.
+    - 이를 위해서, 클라이언트가 접근하는 곳에서 스크립트의 실행이 되지 않도록 막아야한다.
+    - 쿠키 같은 경우는 `http-only` 속성을 이용하여 자바스크립트으로 접근 불가능하도록 해야한다.
+      <br><br>
+  * CSRF(Cross-site request forgery)이란 어떤 공격기법일까요? - 사용자와 사이트 사이의 요청을 위조하는 방법입니다. - 사용자와 특정 웹간의 통신을 할 때, 요청을 위조하여 `공격자가 원하는 행위`를 하게 만드는 공격입니다.
+    <br><br>
+  * SQL Injection이란 어떤 공격기법일까요? - 악의적인 SQL 명령어를 삽입하는 공격 방법입니다. - SQL을 종료한 뒤 사용자 테이블을 모두 삭제하거나, 관리자 권한 탈취 등에 사용됩니다. - SQL 인자 값에 직접 접근을 하지 못하도록 해야하고, 프론트 & 백엔드 검증된 다음 SQL 문을 실행합니다.
+    <br><br>
+
+- HTTP란?
+
+  - HyperText Transfer Protocol의 약자로, 데이터를 네트워크 상에서 전송하기 위해서 사용되는 규약입니다.
+  - HTTP의 요청과 응답은 모두 타인에 의해서 관찰 될 수 있는 반면에 데이터가 암호화 되지 않아, 자연스레 보안적인 위험에 노출됩니다.
+    <br><br>
+
+- 대부분의 최신 브라우저에서는 HTTP 대신 HTTPS가 권장됩니다. 이유가 무엇일까요?
+
+  - 위에서 언급했던 내용과 같이, 요청과 응답에 사용되는 데이터를 암호화 하기위해서 공개키 암호화 기법을 사용하는 TLS가 적용된 HTTPS가 권장됩니다.
+    <br><br>
+
+- HTTPS와 TLS는 어떤 식으로 동작하나요? (TLS 핸드쉐이크)
+
+  - '클라이언트 헬로' 메시지: 클라이언트가 서버로 "헬로" 메시지를 전송하면서 HandShake를 개시합니다. 이 메시지에는 클라이언트가 지원하는 TLS 버전, 지원되는 암호 제품군, 그리고 "클라이언트 무작위"라고 하는 무작위 바이트 문자열이 포함됩니다.
+  - 서버 헬로' 메시지: 클라이언트 헬로 메시지에 대한 응답으로 서버가 서버의 SSL 인증서, 서버에서 선택한 암호 제품군, 그리고 서버에서 생성한 또 다른 무작위 바이트 문자열인 "서버 무작위"를 포함하는 메시지를 전송합니다.
+  - 인증: 클라이언트가 서버의 SSL 인증서를 인증서 발행 기관을 통해 검증합니다. 이를 통해 서버가 인증서에 명시된 서버인지, 그리고 클라이언트가 상호작용 중인 서버가 실제 해당 도메인의 소유자인지를 확인합니다.
+  - 예비 마스터 암호: 클라이언트가 "예비 마스터 암호"라고 하는 무작위 바이트 문자열을 하나 더 전송합니다. 예비 마스터 암호는 공개 키로 암호화되어 있으며, 서버가 개인 키로만 해독할 수 있습니다. (클라이언트는 서버의 SSL 인증서를 통해 공개 키를 받습니다.)
+  - 개인 키 사용: 서버가 예비 마스터 암호를 해독합니다.
+  - 세션 키 생성: 클라이언트와 서버가 모두 클라이언트 무작위, 서버 무작위, 예비 마스터 암호를 이용해 세션 키를 생성합니다. 모두 같은 결과가 나와야 합니다. (공개(=비대칭) 키, 4개의 세션 키가 존재)
+  - 클라이언트 준비 완료: 클라이언트가 세션 키로 암호화된 "완료" 메시지를 전송합니다.
+  - 서버 준비 완료: 서버가 세션 키로 암호화된 "완료" 메시지를 전송합니다.
+  - 안전한 대칭 암호화 성공: 핸드셰이크가 완료되고, 세션 키를 이용해 통신이 계속 진행됩니다. ( 세션 키를 이용한 대칭 키(=비공개 키) )
+
+- HTTPS의 서비스 과정에서 인증서는 어떤 역할을 할까요? 인증서는 어떤 체계로 되어 있을까요?
+  - 클라이언트는 서버로부터 제공받은 SSL 인증서를 CA로 보내서 인증이 된 사이트인지 확인합니다.
+  - CA의 목록은 브라우저 내부에 자체 내장이 되어있고, 목록 내부에 없으면 안전하지 않은 사이트임을 표시합니다.
 
 ## Quest
-* 메모장의 서버와 클라이언트에 대해, 로컬에서 발행한 인증서를 통해 HTTPS 서비스를 해 보세요.
+
+- 메모장의 서버와 클라이언트에 대해, 로컬에서 발행한 인증서를 통해 HTTPS 서비스를 해 보세요.
 
 ## Advanced
-* TLS의 인증서에 쓰이는 암호화 알고리즘은 어떤 종류가 있을까요?
-* HTTP/3은 기존 버전과 어떻게 다를까요? HTTP의 버전 3이 나오게 된 이유는 무엇일까요?
+
+- TLS의 인증서에 쓰이는 암호화 알고리즘은 어떤 종류가 있을까요?
+- HTTP/3은 기존 버전과 어떻게 다를까요? HTTP의 버전 3이 나오게 된 이유는 무엇일까요?
